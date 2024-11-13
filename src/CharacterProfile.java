@@ -1,26 +1,45 @@
 import java.util.Scanner;
-import java.util.Dictionary;
-import java.lang.*;
 
 public class CharacterProfile {
     private String userName;
     private String characterArchetype;
-    private boolean chosenArchetype;
     private int characterHealth;
 
-
     public CharacterProfile(String userName, String characterArchetype, boolean chosenArchetype) {
-            this.userName = userName;
-            this.characterArchetype = characterArchetype;
-            this.chosenArchetype = chosenArchetype;
+        this.userName = userName;
+        this.characterArchetype = characterArchetype;
+        setCharacterAttributes(characterArchetype);
+    }
 
+    private void setCharacterAttributes(String archetype) {
+        switch (archetype.toLowerCase()) {
+            case "deprived":
+                characterHealth = 80;
+                break;
+            case "knight":
+                characterHealth = 120;
+                break;
+            case "wizard":
+                characterHealth = 60;
+                break;
+            default:
+                characterHealth = 100; // Default for unknown types
+        }
     }
-    public String getCharacterProfile (String userName) {
-        String CharacterAttributes [] = {};
-        Scanner getter = new Scanner(System.in);
-        userName = getter.nextLine();
-        //CharacterAttributes.append(userName);
-     return " ";
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-    //return CharacterAttributes;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getCharacterArchetype() {
+        return characterArchetype;
+    }
+
+    public int getCharacterHealth() {
+        return characterHealth;
+    }
 }
