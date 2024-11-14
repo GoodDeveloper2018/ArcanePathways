@@ -1,0 +1,12 @@
+public class Character {
+    protected String Name;
+    protected int Health;
+    protected int Strength;
+    protected int Magic;
+    protected String archetype;
+
+    public Character (String character, String archetype) {
+
+    }
+
+}
