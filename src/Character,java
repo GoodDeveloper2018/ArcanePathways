@@ -1,12 +1,45 @@
 public class Character {
-    protected String Name;
-    protected int Health;
-    protected int Strength;
-    protected int Magic;
+    protected String name;
+    protected int health;
+    protected int strength;
+    protected int magic;
     protected String archetype;
 
-    public Character (String character, String archetype) {
-
+    public Character(String name, String archetype) {
+        this.name = name;
+        this.archetype = archetype;
+        initializeAttributes();
     }
 
+    protected void initializeAttributes() {
+        // Default values to be overridden by subclasses
+        this.health = 100;
+        this.strength = 5;
+        this.magic = 5;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getArchetype() {
+        return archetype;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+    public int getMagic() {
+        return magic;
+    }
+
+    public String getProfile() {
+        return "Name: " + name + "\nArchetype: " + archetype + "\nHealth: " + health +
+               "\nStrength: " + strength + "\nMagic: " + magic;
+    }
 }
