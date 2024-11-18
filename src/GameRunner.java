@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
+import java.awt.Dimension;
+
+import javax.swing.JPanel;
 
 public class GameRunner {
     private JFrame window;
@@ -11,6 +14,29 @@ public class GameRunner {
         setupWindow();
         chooseCharacter();
     }
+
+    //Screen Settings
+    final int originalTileSize = 16;
+    final int scale = 3;
+
+    final int tileSize = originalTileSize * scale; // 48x48 Tile Size
+
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 12;
+    // 4x3 Ratio
+
+    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
+    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    
+    /*
+    public GameMapPanel () {
+
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setBackground(Color.black);
+
+    }
+     */
+
 
     private void setupWindow() {
         window = new JFrame("Arcane Pathways");
