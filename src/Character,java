@@ -4,6 +4,7 @@ public class Character {
     protected int strength;
     protected int magic;
     protected String archetype;
+    protected int movementRange; // New attribute for movement range
 
     public Character(String name, String archetype) {
         this.name = name;
@@ -12,10 +13,10 @@ public class Character {
     }
 
     protected void initializeAttributes() {
-        // Default values to be overridden by subclasses
         this.health = 100;
         this.strength = 5;
         this.magic = 5;
+        this.movementRange = 2; // Default movement range
     }
 
     public String getName() {
@@ -38,8 +39,13 @@ public class Character {
         return magic;
     }
 
+    public int getMovementRange() {
+        return movementRange;
+    }
+
     public String getProfile() {
         return "Name: " + name + "\nArchetype: " + archetype + "\nHealth: " + health +
-               "\nStrength: " + strength + "\nMagic: " + magic;
+                "\nStrength: " + strength + "\nMagic: " + magic +
+                "\nMovement Range: " + movementRange;
     }
 }
