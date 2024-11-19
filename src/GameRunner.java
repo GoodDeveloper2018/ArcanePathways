@@ -1,95 +1,97 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
-import java.awt.Dimension;
-import javax.swing.JFrame;
 
 public class GameRunner {
     private JFrame window;
     private JTextArea displayArea;
-    private CharacterProfile character;
+    private Character character;
+
+    // Screen Settings
+    final int originalTileSize = 16;
+    final int scale = 3;
+    final int tileSize = originalTileSize * scale;
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 12;
 
     public GameRunner() {
         setupWindow();
         chooseCharacter();
+        showGameMap();
     }
 
-    //Screen Settings
-    final int originalTileSize = 16;
-    final int scale = 3;
-
-    final int tileSize = originalTileSize * scale; // 48x48 Tile Size
-
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    // 4x3 Ratio
-
-    final int screenWidth = tileSize * maxScreenCol; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-
-    /*
-    public GameMapPanel () {
-
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
-
-    }
-     */
-    
     private void setupWindow() {
         window = new JFrame("Arcane Pathways");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(500, 300);
+        window.setSize(maxScreenCol * tileSize, maxScreenRow * tileSize);
+        window.setLayout(new BorderLayout());
 
         displayArea = new JTextArea();
         displayArea.setEditable(false);
+        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
 
-        window.setLayout(new BorderLayout());
-        window.add(new JScrollPane(displayArea), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+        window.add(scrollPane, BorderLayout.NORTH);
+
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
-        window.toFront();
-        window.requestFocus();
-        
-        /*
-        GamePanel gamePanel = new GamePanel;
-        window.add(gamePanel);
-
-        boolean windowVisibility = false;
-        if ()
-            window.setLocationRelativeTo(null);
-            window.setVisible(windowVisibility);
     }
-        */
-        private void chooseCharacter () {
-            Scanner scanner = new Scanner(System.in);
 
-            // Prompt for archetype selection
-            System.out.print("Choose your character archetype (Deprived, Knight, Wizard, or RANDOM): ");
-            displayArea.append("Choose your character archetype (Deprived, Knight, Wizard, or RANDOM):\n");
-            String archetype = scanner.nextLine();
+    private void chooseCharacter() {
+        Scanner scanner = new Scanner(System.in);
 
-            // Prompt for character name
-            System.out.print("Enter your character name: ");
-            displayArea.append("Enter your character name:\n");
-            String name = scanner.nextLine();
+        // Prompt for archetype selection
+        System.out.print("Choose your character archetype (Deprived, Knight, Wizard, or RANDOM): ");
+        displayArea.append("Choose your character archetype (Deprived, Knight, Wizard, or RANDOM):\n");
+        String archetype = scanner.nextLine().trim().toLowerCase();
 
-            // Create CharacterProfile and display confirmation
-            if (archetype != "random".toLowerCase() || archetype != "RANDOM".toUpperCase()) {
-                character = new CharacterProfile(name, archetype, true);
-                displayArea.append("You chose: " + archetype + "\nWelcome, " + name + " the " + archetype + "!\n");
-                System.out.println("You chose: " + archetype);
-                System.out.println("Welcome, " + name + " the " + archetype + "!");
-            } else {
-                int randomArchetype = (int) (Math.random() * 3);
-                //character = new CharacterProfile(name, archetype[randomArchetype], false);
-                displayArea.append("You chose: " + archetype + "\nWelcome, " + name + " the " + archetype + "!\n");
-                System.out.println("You chose: " + archetype);
-                System.out.println("Welcome, " + name + " the " + archetype + "!");
-            }
+        // Prompt for character name
+        System.out.print("Enter your character name: ");
+        displayArea.append("Enter your character name:\n");
+        String name = scanner.nextLine().trim();
+
+        // Handle character creation
+        switch (archetype) {
+            case "wizard":
+                character = new Wizard(name);
+                break;
+            case "knight":
+                character = new Knight(name);
+                break;
+            case "deprived":
+                character = new Deprived(name);
+                break;
+            case "random":
+                int randomChoice = (int) (Math.random() * 3);
+                switch (randomChoice) {
+                    case 0 -> character = new Wizard(name);
+                    case 1 -> character = new Knight(name);
+                    case 2 -> character = new Deprived(name);
+                }
+                archetype = character.getArchetype(); // Update archetype to display the random choice
+                break;
+            default:
+                System.out.println("Invalid choice! Defaulting to Deprived.");
+                displayArea.append("Invalid choice! Defaulting to Deprived.\n");
+                character = new Deprived(name);
+                archetype = "Deprived";
         }
 
-        public static void main(String[] args){
-            new GameRunner();
-        }
+        // Display character profile
+        displayArea.append("\nYou chose: " + archetype + "\nWelcome, " + name + " the " + archetype + "!\n");
+        System.out.println("\nYou chose: " + archetype);
+        System.out.println("Welcome, " + name + " the " + archetype + "!");
+        displayArea.append("\n" + character.getProfile() + "\n");
     }
-} 
+
+    private void showGameMap() {
+        GameMap gameMap = new GameMap();
+        window.add(gameMap, BorderLayout.CENTER);
+        window.revalidate();
+        window.repaint();
+    }
+
+    public static void main(String[] args) {
+        new GameRunner();
+    }
+}
