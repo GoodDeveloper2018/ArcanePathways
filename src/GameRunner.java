@@ -91,6 +91,18 @@ public class GameRunner {
         window.repaint();
     }
 
+    public static String getUserMovement() {
+        Scanner sc = new Scanner(System.in);
+
+        int x = 0;
+        for (int i = 0; i < x; i++) {
+            System.out.println("What is your " + x + "th" + "move");
+        }
+        String userMove = sc.nextLine();
+        return userMove;
+    }
+
+
     public static void main(String[] args) {
         new GameRunner();
     }
