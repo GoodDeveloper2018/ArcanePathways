@@ -32,7 +32,7 @@ public class GameMap extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                handleMovement(e.getKeyCode());
+                //handleMovement(e.getKeyCode());
                 repaint();
             }
         });
@@ -48,13 +48,8 @@ public class GameMap extends JPanel {
         }
     }
 
-    private void handleMovement(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP -> playerY = Math.max(0, playerY - 1);
-            case KeyEvent.VK_DOWN -> playerY = Math.min(rows - 1, playerY + 1);
-            case KeyEvent.VK_LEFT -> playerX = Math.max(0, playerX - 1);
-            case KeyEvent.VK_RIGHT -> playerX = Math.min(cols - 1, playerX + 1);
-        }
+    private void handleMovement(String userMove) {
+        //userMove.getUserMovement;
         checkForNPCInteraction();
     }
 
