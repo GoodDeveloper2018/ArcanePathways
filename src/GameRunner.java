@@ -6,6 +6,7 @@ public class GameRunner {
     private JFrame window;
     private JTextArea displayArea;
     private Character character;
+    private GameMap gameMap;
 
     // Screen Settings
     final int originalTileSize = 16;
@@ -18,6 +19,7 @@ public class GameRunner {
         setupWindow();
         chooseCharacter();
         showGameMap();
+        startGameLoop();
     }
 
     private void setupWindow() {
@@ -85,23 +87,30 @@ public class GameRunner {
     }
 
     private void showGameMap() {
-        GameMap gameMap = new GameMap();
+        gameMap = new GameMap();
         window.add(gameMap, BorderLayout.CENTER);
         window.revalidate();
         window.repaint();
     }
 
-    public static String getUserMovement() {
-        Scanner sc = new Scanner(System.in);
+    private void startGameLoop() {
+        Scanner scanner = new Scanner(System.in);
 
-        int x = 0;
-        for (int i = 0; i < x; i++) {
-            System.out.println("What is your " + x + "th" + "move");
+        System.out.println("Move your character with: W (up), S (down), A (left), D (right)");
+        while (true) {
+            System.out.print("Enter your move: ");
+            String move = scanner.nextLine().trim().toUpperCase();
+
+            if (!gameMap.handleMovement(move, character)) {
+                System.out.println("Invalid move! Either blocked or invalid direction.");
+            } else {
+                // Update player attributes in the display area
+                displayArea.setText(character.getProfile());
+            }
+
+            window.repaint();
         }
-        String userMove = sc.nextLine();
-        return userMove;
     }
-
 
     public static void main(String[] args) {
         new GameRunner();
