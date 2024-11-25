@@ -81,11 +81,11 @@ public class GameMap extends JPanel {
     }
 
     /**
-     * Generates end spots located at the two opposite corners of the map.
+     * Generates end spots located at the two right corners of the map.
      */
     private void generateEndSpots() {
         endSpots = new Point[2];
-        endSpots[0] = new Point(0, 0); // Top-left corner
+        endSpots[0] = new Point(cols - 1, 0);       // Top-right corner
         endSpots[1] = new Point(cols - 1, rows - 1); // Bottom-right corner
     }
 
