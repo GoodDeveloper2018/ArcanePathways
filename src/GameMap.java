@@ -157,7 +157,7 @@ public class GameMap extends JPanel {
             }
         }
 
-        // Check for enemy proximity (same tile or adjacent)
+        // Check for enemy proximity (one grid away)
         for (Point npc : enemyNPCs) {
             if (npc != null && isAdjacent(newX, newY, npc.x, npc.y)) {
                 String encounterMessage = "An enemy has appeared!";
@@ -172,10 +172,6 @@ public class GameMap extends JPanel {
                 // Create a new Enemy instance for the duel
                 Enemy enemy = new Enemy("Goblin");
                 startDuel(player, enemy, enemyFirst);
-
-                // Remove enemy NPC after the duel
-                removeNPC(enemyNPCs, npc);
-
                 return false; // Player does not move into enemy's space
             }
         }
@@ -196,7 +192,7 @@ public class GameMap extends JPanel {
      * @return true if adjacent, false otherwise
      */
     private boolean isAdjacent(int x1, int y1, int x2, int y2) {
-        return Math.abs(x1 - x2) <= 0 && Math.abs(y1 - y2) <= 0;
+        return Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1;
     }
 
     /**
@@ -411,7 +407,7 @@ public class GameMap extends JPanel {
      */
     private void removeNPC(Point[] npcs, Point npc) {
         for (int i = 0; i < npcs.length; i++) {
-            if (npcs[i] != null && npcs[i].equals(npc)) {
+            if (npcs[i].equals(npc)) {
                 npcs[i] = null;
                 break;
             }
